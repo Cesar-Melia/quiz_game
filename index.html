@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="trivial.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Trivial</title>
+</head>
+
+<body>
+    <section class="b-gameConfig">
+        <div class="b-inputs">
+            <label class="b-label" for="questNum">Number of questios:</label>
+            <p class="b-underLabel">Number between 1 and 50.</p>
+            <input data-function="questions-number" class="b-inputs__input" id="questNum" type="text"
+                placeholder="Number of questions" value="10">
+            <label class="b-label" for="questCat">Questions category:</label>
+            <p class="b-underLabel">Any Category, General Knowledge, Books, Film, Music, Musicals & Theatre, Television,
+                Video Games, Board Games, Science & Nature, Computers, Mathematics, Mythology, Sports, Geogrphy,
+                History,
+                politics, Art, Celebrities, Animals, Vehicles, Comics, Gadgets, Anime, Cartoon.</p>
+            <input data-function="questions-category" class="b-inputs__input" id="questCat" type="text"
+                placeholder="Choose one category" value="Any Category">
+            <label class="b-label" for="questDiff">Questions difficulty:</label>
+            <p class="b-underLabel">Easy, Medium, Hard.</p>
+            <input data-function="questions-difficulty" class="b-inputs__input" id="questDiff" type="text"
+                placeholder="Select Difficulty" value="Medium">
+            <label class="b-label" for="questType">Questions type:</label>
+            <p class="b-underLabel">Multiple Choice, True or False.</p>
+            <input data-function="questions-type" class="b-inputs__input" id="questType" type="text"
+                placeholder="Questions type" value="Multiple Choice">
+            <button data-function="start-game" class="b-button">Start game!</button>
+        </div>
+    </section>
+    <section>
+        <div data-function="gameboard" class="b-gameboard">
+
+        </div>
+    </section>
+
+
+
+</body>
+
+</html>

@@ -4,6 +4,29 @@
 
 // Ten en cuenta que hay dos tipos de preguntas. Aquellas con 3 respuestas erroneas y 1 correcta y aquellas con respuesta verdadero / falso.
 
+let numQuest;
+let category;
+let difficulty;
+let type;
+
+startButton$$ = document.body.querySelector('[data-function="start-game"]');
+startButton$$.addEventListener("click", (event) => {
+    numQuest = document.body
+        .querySelector('[data-function="questions-number"]')
+        .value.toLowerCase();
+    category = document.body
+        .querySelector('[data-function="questions-category"]')
+        .value.toLowerCase();
+    difficulty = document.body
+        .querySelector('[data-function="questions-difficulty"]')
+        .value.toLowerCase();
+    type = document.body.querySelector('[data-function="questions-type"]').value.toLowerCase();
+
+    console.log(numQuest, category, difficulty, type);
+});
+
 const baseUrl = "https://opentdb.com/api.php?";
 const numQuestUrl = `amount=${numQuest}`;
 const categUrl = `&${category}`;
+const diffUrl = `&${difficulty}`;
+const typeUrl = `&${type}`;
