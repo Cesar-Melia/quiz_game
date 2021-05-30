@@ -209,17 +209,23 @@ const printQuestion = (quest) => {
     options$$.classList.add("b-board__options");
 
     if (quest.type === "boolean") {
+        generateoptions(quest);
         console.log(quest.correct_answer);
         buttonC$$.classList.add("hide-element");
         buttonD$$.classList.add("hide-element");
-        options$$.innerHTML = "<div>A:  True</div>";
-        options$$.innerHTML += "<div>B:  False</div>";
+        options$$.innerHTML = "<div data-function='optionA' class='b-board__option'>A:  True</div>";
+        options$$.innerHTML +=
+            "<div data-function='optionB' class='b-board__option'>B:  False</div>";
     } else {
         generateoptions(quest);
-        options$$.innerHTML = "<div class='b-board__option'>A :  " + options[0] + "</div>";
-        options$$.innerHTML += "<div class='b-board__option'>B :  " + options[1] + "</div>";
-        options$$.innerHTML += "<div class='b-board__option'>C :  " + options[2] + "</div>";
-        options$$.innerHTML += "<div class='b-board__option'>D :  " + options[3] + "</div>";
+        options$$.innerHTML =
+            "<div data-function='optionA' class='b-board__option'>A :  " + options[0] + "</div>";
+        options$$.innerHTML +=
+            "<div data-function='optionB' class='b-board__option'>B :  " + options[1] + "</div>";
+        options$$.innerHTML +=
+            "<div data-function='optionC' class='b-board__option'>C :  " + options[2] + "</div>";
+        options$$.innerHTML +=
+            "<div data-function='optionD' class='b-board__option'>D :  " + options[3] + "</div>";
     }
 
     div$$.appendChild(category$$);
@@ -255,27 +261,37 @@ const generateoptions = (quest) => {
     }
 
     options.push(quest.correct_answer);
-    options.sort(() => 0.5 - Math.random());
 
-    correctAnswer = options.find((option) => {
-        return option.includes(quest.correct_answer);
-    });
-    correctAnswer = options.indexOf(correctAnswer);
+    if (quest.type === "multiple") {
+        options.sort(() => 0.5 - Math.random());
 
-    switch (correctAnswer) {
-        case 0:
+        correctAnswer = options.find((option) => {
+            return option.includes(quest.correct_answer);
+        });
+        correctAnswer = options.indexOf(correctAnswer);
+
+        switch (correctAnswer) {
+            case 0:
+                correctAnswer = "a";
+                break;
+            case 1:
+                correctAnswer = "b";
+                break;
+            case 2:
+                correctAnswer = "c";
+                break;
+            case 3:
+                correctAnswer = "d";
+                break;
+        }
+    } else {
+        if (quest.correct_answer === "True") {
             correctAnswer = "a";
-            break;
-        case 1:
+        } else {
             correctAnswer = "b";
-            break;
-        case 2:
-            correctAnswer = "c";
-            break;
-        case 3:
-            correctAnswer = "d";
-            break;
+        }
     }
+
     console.log("quest correct: " + quest.correct_answer);
     console.log("correct : " + correctAnswer);
 };
@@ -283,24 +299,29 @@ const generateoptions = (quest) => {
 const checkCorrect = (quest, eventId) => {
     if (quest.type === "boolean") {
         if (quest.correct_answer === "True" && eventId === "a") {
-            console.log(quest.correct_answer);
-            console.log(eventId);
             scoreUpdate();
-            nextQuestion();
+            paintCorrect();
+            setTimeout(nextQuestion, 1500);
         } else if (quest.correct_answer === "False" && eventId === "b") {
             console.log(quest.correct_answer);
             console.log(eventId);
             scoreUpdate();
-            nextQuestion();
+            paintCorrect();
+            setTimeout(nextQuestion, 1500);
         } else {
-            nextQuestion();
+            paintIncorrect(eventId);
+            paintCorrect();
+            setTimeout(nextQuestion, 1500);
         }
     } else if (quest.type === "multiple") {
         if (correctAnswer === eventId) {
             scoreUpdate();
-            nextQuestion();
+            paintCorrect();
+            setTimeout(nextQuestion, 1500);
         } else {
-            nextQuestion();
+            paintIncorrect(eventId);
+            paintCorrect();
+            setTimeout(nextQuestion, 1500);
         }
     }
 };
@@ -315,6 +336,23 @@ const nextQuestion = () => {
     clearInterval(countInterval);
     clearInterval(questLoop);
     askQuestion();
+};
+
+const paintCorrect = () => {
+    console.log(correctAnswer);
+    const correct$$ = board$$.querySelector(
+        "[data-function='option" + correctAnswer.toUpperCase() + "']"
+    );
+    correct$$.classList.add("b-board__option--correct");
+};
+
+const paintIncorrect = (eventId) => {
+    console.log(eventId);
+    const incorrect$$ = board$$.querySelector(
+        "[data-function='option" + eventId.toUpperCase() + "']"
+    );
+
+    incorrect$$.classList.add("b-board__option--incorrect");
 };
 
 buttonA$$.addEventListener("click", (event) => {
