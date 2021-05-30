@@ -39,16 +39,22 @@ body {
 
 .b-gameConfig {
     display: flex;
+    justify-content: center;
 }
 
 .b-form {
+    display: flex;
+    justify-content: center;
     width: 100%;
+    max-width: 1024px;
     padding: 50px;
 
     fieldset {
         border: none;
         display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     legend {
@@ -56,6 +62,7 @@ body {
     }
 
     &__label {
+        text-align: center;
         font-family: "anti";
         letter-spacing: 1px;
         color: #3b4b62;
@@ -64,13 +71,18 @@ body {
     }
 
     &__underLabel {
+        display: flex;
+        justify-content: center;
+        text-align: center;
         font-size: 12px;
-        max-width: 320px;
+        max-width: 300px;
         text-align: justify;
         color: rgb(95, 95, 95);
     }
 
     &__input {
+        display: flex;
+        justify-content: center;
         max-width: 200px;
         margin-bottom: 30px;
         color: #3b4b62;
@@ -94,7 +106,7 @@ body {
     }
 
     &__h2 {
-        font-size: 24px;
+        font-size: 20px;
         //font-family: "anti";
         letter-spacing: 1px;
         text-align: center;
@@ -113,14 +125,14 @@ body {
         border-radius: 30px;
         width: 100%;
         max-width: 1024px;
-        height: 400px;
+        min-height: 400px;
         margin: 0 50px 50px 50px;
         color: #d4e0f0;
     }
 
     &__category {
         font-size: 18px;
-        margin-left: 15px;
+        margin-left: 25px;
         width: fit-content;
     }
 
@@ -128,12 +140,22 @@ body {
         font-size: 24px;
         font-weight: normal;
 
-        color: whitesmoke;
-        margin: 30px 0 0 15px;
+        color: rgb(247, 247, 162);
+        margin: 30px 0 0 25px;
         width: 50%;
     }
 
     &__options {
+        font-size: 20px;
+        font-weight: normal;
+        color: whitesmoke;
+        margin: 30px 0 0 25px;
+        width: 50%;
+    }
+
+    &__option {
+        margin-bottom: 10px;
+
         &--correct {
             color: rgb(178, 218, 120);
         }
@@ -147,6 +169,19 @@ body {
         display: flex;
         justify-content: space-evenly;
         width: 100%;
+    }
+
+    &__score {
+        font-size: 24px;
+        color: #3b4b62;
+        margin-top: 50px;
+        border: solid 1px #3b4b62;
+        border-radius: 8px;
+        //font-family: "anti";
+        letter-spacing: 1px;
+        text-align: center;
+        width: 150px;
+        padding: 10px;
     }
 }
 

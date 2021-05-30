@@ -14,13 +14,21 @@ let time;
 let counter = 0;
 let countInterval;
 let questLoop;
+let options = [];
+let correctAnswer;
+let score = 0;
 
 const form$$ = document.body.querySelector("form");
 const main$$ = document.body.querySelector("[data-function='main']");
 const board$$ = document.body.querySelector("[data-function='board']");
 const numQuest$$ = document.body.querySelector("[data-function='numQuest']");
 const time$$ = document.body.querySelector("[data-function='time']");
+const score$$ = document.body.querySelector("[data-function='score']");
 const startButton$$ = form$$.querySelector('[data-function="start-game"]');
+const buttonA$$ = main$$.querySelector("#a");
+const buttonB$$ = main$$.querySelector("#b");
+const buttonC$$ = main$$.querySelector("#c");
+const buttonD$$ = main$$.querySelector("#d");
 
 startButton$$.addEventListener("click", async (event) => {
     event.preventDefault();
@@ -28,8 +36,6 @@ startButton$$.addEventListener("click", async (event) => {
     main$$.classList.remove("hide-element");
     const url = configureGame();
     questions = await apiRequest(url);
-
-    console.log(questions);
     askQuestions();
 });
 
@@ -178,7 +184,7 @@ const intervalManage = () => {
         numQuest$$.textContent = `Question: ${counter + 1} / ${totalQuest}`;
         const quest = questions[counter];
         printQuestion(quest);
-        console.log(quest);
+        console.log("quest " + quest);
         counter++;
     } else {
         clearInterval(countInterval);
@@ -188,12 +194,12 @@ const intervalManage = () => {
 };
 
 const printQuestion = (quest) => {
-    if (quest.type === "boolean") {
-    }
+    resetButons();
+    score$$.textContent = "Score : " + score;
 
     board$$.textContent = "";
     const div$$ = document.createElement("div");
-    div$$.classList.add("b-board__card", "border"); /////////////////////////////////////////// Quitar border
+    div$$.classList.add("b-board__card");
 
     const category$$ = document.createElement("h3");
     category$$.classList.add("b-board__category");
@@ -203,9 +209,48 @@ const printQuestion = (quest) => {
     quest$$.classList.add("b-board__quest");
     quest$$.innerHTML = quest.question;
 
+    const options$$ = document.createElement("h3");
+    options$$.classList.add("b-board__options");
+
+    if (quest.type === "boolean") {
+        buttonC$$.classList.add("hide-element");
+        buttonD$$.classList.add("hide-element");
+        options$$.innerHTML = "<div>A:  True</div>";
+        options$$.innerHTML += "<div>B:  False</div>";
+    } else {
+        generateoptions(quest);
+        options$$.innerHTML = "<div class='b-board__option'>A :  " + options[0] + "</div>";
+        options$$.innerHTML += "<div class='b-board__option'>B :  " + options[1] + "</div>";
+        options$$.innerHTML += "<div class='b-board__option'>C :  " + options[2] + "</div>";
+        options$$.innerHTML += "<div class='b-board__option'>D :  " + options[3] + "</div>";
+    }
+
     div$$.appendChild(category$$);
     div$$.appendChild(quest$$);
+
     board$$.appendChild(div$$);
+    board$$.appendChild(options$$);
+
+    buttonA$$.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("id");
+        console.log("id = " + id);
+        checkCorrect(quest, id);
+    });
+    buttonB$$.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("id");
+        console.log("id = " + id);
+        checkCorrect(quest, id);
+    });
+    buttonC$$.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("id");
+        console.log("id = " + id);
+        checkCorrect(quest, id);
+    });
+    buttonD$$.addEventListener("click", (event) => {
+        const id = event.target.getAttribute("id");
+        console.log("id = " + id);
+        checkCorrect(quest, id);
+    });
 };
 
 const timer = () => {
@@ -215,4 +260,61 @@ const timer = () => {
 
 const finishGame = () => {
     alert("Game finished");
+};
+
+const resetButons = () => {
+    buttonA$$.classList.remove();
+    buttonB$$.classList.remove();
+    buttonC$$.classList.remove("hide-element");
+    buttonD$$.classList.remove("hide-element");
+};
+
+const generateoptions = (quest) => {
+    options = [];
+    for (const answer of quest.incorrect_answers) {
+        options.push(answer);
+    }
+
+    options.push(quest.correct_answer);
+    options.sort(() => 0.5 - Math.random());
+
+    correctAnswer = options.find((option) => {
+        //console.log(option);
+        return option.includes(quest.correct_answer);
+    });
+    correctAnswer = options.indexOf(correctAnswer);
+
+    switch (correctAnswer) {
+        case 0:
+            correctAnswer = "a";
+            break;
+        case 1:
+            correctAnswer = "b";
+            break;
+        case 2:
+            correctAnswer = "c";
+            break;
+        case 3:
+            correctAnswer = "d";
+            break;
+    }
+    console.log("quest correct: " + quest.correct_answer);
+    console.log("correct : " + correctAnswer);
+};
+
+const checkCorrect = (quest, eventId) => {
+    if (quest.type === "boolean") {
+        if (quest.correct_answer && eventId === "a") {
+            score++;
+        } else if (!quest.correct_answer && eventId === "b") {
+            score++;
+        } else {
+        }
+    }
+    if (quest.type === "multiple") {
+        if (correctAnswer === eventId) {
+            score++;
+        } else {
+        }
+    }
 };
