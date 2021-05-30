@@ -9,10 +9,11 @@ let category;
 let difficulty;
 let type;
 let questions = [];
-
-const startButton$$ = document.body.querySelector('[data-function="start-game"]');
+const form$$ = document.body.querySelector("form");
+const startButton$$ = form$$.querySelector('[data-function="start-game"]');
 startButton$$.addEventListener("click", async (event) => {
     event.preventDefault();
+    form$$.classList.add("hide-element");
     const url = configureGame();
     await apiRequest(url);
 
@@ -143,5 +144,10 @@ const apiRequest = async (url) => {
     } catch (err) {
         console.error("Error: Conexion to API has failed", err);
         alert("Error: Conexion to API has failed");
+    }
+};
+
+const printQuestions = () => {
+    for (quest of questions) {
     }
 };
