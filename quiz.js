@@ -9,6 +9,7 @@ let category;
 let difficulty;
 let type;
 let questions = [];
+let question;
 let totalQuest;
 let time;
 let counter = 0;
@@ -17,6 +18,7 @@ let questLoop;
 let options = [];
 let correctAnswer;
 let score = 0;
+let answerId;
 
 const form$$ = document.body.querySelector("form");
 const main$$ = document.body.querySelector("[data-function='main']");
@@ -36,7 +38,9 @@ startButton$$.addEventListener("click", async (event) => {
     main$$.classList.remove("hide-element");
     const url = configureGame();
     questions = await apiRequest(url);
-    askQuestions();
+
+    console.log(questions);
+    askQuestion();
 });
 
 const configureGame = () => {
@@ -167,14 +171,7 @@ const apiRequest = async (url) => {
     }
 };
 
-const askQuestions = () => {
-    intervalManage();
-    questLoop = setInterval(() => {
-        intervalManage();
-    }, 11500);
-};
-
-const intervalManage = () => {
+const askQuestion = () => {
     if (totalQuest > counter) {
         if (countInterval !== undefined) {
             clearInterval(countInterval);
@@ -184,7 +181,6 @@ const intervalManage = () => {
         numQuest$$.textContent = `Question: ${counter + 1} / ${totalQuest}`;
         const quest = questions[counter];
         printQuestion(quest);
-        console.log("quest " + quest);
         counter++;
     } else {
         clearInterval(countInterval);
@@ -195,7 +191,7 @@ const intervalManage = () => {
 
 const printQuestion = (quest) => {
     resetButons();
-    score$$.textContent = "Score : " + score;
+    question = quest;
 
     board$$.textContent = "";
     const div$$ = document.createElement("div");
@@ -213,6 +209,7 @@ const printQuestion = (quest) => {
     options$$.classList.add("b-board__options");
 
     if (quest.type === "boolean") {
+        console.log(quest.correct_answer);
         buttonC$$.classList.add("hide-element");
         buttonD$$.classList.add("hide-element");
         options$$.innerHTML = "<div>A:  True</div>";
@@ -230,36 +227,18 @@ const printQuestion = (quest) => {
 
     board$$.appendChild(div$$);
     board$$.appendChild(options$$);
-
-    buttonA$$.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("id");
-        console.log("id = " + id);
-        checkCorrect(quest, id);
-    });
-    buttonB$$.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("id");
-        console.log("id = " + id);
-        checkCorrect(quest, id);
-    });
-    buttonC$$.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("id");
-        console.log("id = " + id);
-        checkCorrect(quest, id);
-    });
-    buttonD$$.addEventListener("click", (event) => {
-        const id = event.target.getAttribute("id");
-        console.log("id = " + id);
-        checkCorrect(quest, id);
-    });
 };
 
 const timer = () => {
     time$$.textContent = "Time: " + time;
     time--;
+    if (time === -1) {
+        askQuestion();
+    }
 };
 
 const finishGame = () => {
-    alert("Game finished");
+    alert("Game finished \nYour score is: " + score);
 };
 
 const resetButons = () => {
@@ -279,7 +258,6 @@ const generateoptions = (quest) => {
     options.sort(() => 0.5 - Math.random());
 
     correctAnswer = options.find((option) => {
-        //console.log(option);
         return option.includes(quest.correct_answer);
     });
     correctAnswer = options.indexOf(correctAnswer);
@@ -304,17 +282,58 @@ const generateoptions = (quest) => {
 
 const checkCorrect = (quest, eventId) => {
     if (quest.type === "boolean") {
-        if (quest.correct_answer && eventId === "a") {
-            score++;
-        } else if (!quest.correct_answer && eventId === "b") {
-            score++;
+        if (quest.correct_answer === "True" && eventId === "a") {
+            console.log(quest.correct_answer);
+            console.log(eventId);
+            scoreUpdate();
+            nextQuestion();
+        } else if (quest.correct_answer === "False" && eventId === "b") {
+            console.log(quest.correct_answer);
+            console.log(eventId);
+            scoreUpdate();
+            nextQuestion();
         } else {
+            nextQuestion();
         }
-    }
-    if (quest.type === "multiple") {
+    } else if (quest.type === "multiple") {
         if (correctAnswer === eventId) {
-            score++;
+            scoreUpdate();
+            nextQuestion();
         } else {
+            nextQuestion();
         }
     }
 };
+
+const scoreUpdate = () => {
+    score++;
+    score$$.textContent = "Score : " + score;
+};
+
+const nextQuestion = () => {
+    answerId = undefined;
+    clearInterval(countInterval);
+    clearInterval(questLoop);
+    askQuestion();
+};
+
+buttonA$$.addEventListener("click", (event) => {
+    answerId = event.target.getAttribute("id");
+    console.log("id = " + answerId);
+    checkCorrect(question, answerId);
+});
+buttonB$$.addEventListener("click", (event) => {
+    answerId = event.target.getAttribute("id");
+    console.log("id = " + answerId);
+    checkCorrect(question, answerId);
+});
+buttonC$$.addEventListener("click", (event) => {
+    answerId = event.target.getAttribute("id");
+    console.log("id = " + answerId);
+    checkCorrect(question, answerId);
+});
+buttonD$$.addEventListener("click", (event) => {
+    answerId = event.target.getAttribute("id");
+    console.log("id = " + answerId);
+    checkCorrect(question, answerId);
+});
