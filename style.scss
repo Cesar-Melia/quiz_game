@@ -1,39 +1,87 @@
+@font-face {
+    font-family: "ming";
+    src: url("./assets/fonts/ming-in-bling/ming-in-bling.ttf");
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "anti";
+    src: url("./assets/fonts/antipasto/Antipasto-Pro-Regular-trial.ttf");
+    font-style: normal;
+}
+
 body {
     font-family: Arial;
+    background-color: #d4e0f0;
+}
+
+.b-header {
+    &__h1 {
+        font-family: "ming";
+        font-size: 100px;
+        color: #3b4b62;
+        text-align: center;
+    }
 }
 
 .b-gameConfig {
     display: flex;
 }
 
-.b-inputs {
-    display: flex;
-    flex-direction: column;
+.b-form {
     width: 100%;
     padding: 50px;
+
+    fieldset {
+        border: none;
+        display: flex;
+        flex-direction: column;
+    }
+
+    legend {
+        display: none;
+    }
+
+    &__label {
+        font-family: "anti";
+        color: #3b4b62;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    &__underLabel {
+        font-size: 12px;
+        max-width: 320px;
+        text-align: justify;
+        color: rgb(95, 95, 95);
+    }
+
     &__input {
         max-width: 200px;
         margin-bottom: 30px;
     }
-}
 
-.b-label {
-    font-size: 20px;
-}
+    &__button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #3b4b62;
+        font-size: 20px;
+        font-family: "anti";
+        border: solid 1px #3b4b62;
+        border-radius: 8px;
+        background-color: #d4e0f0;
+        max-width: 150px;
+        height: 40px;
 
-.b-underLabel {
-    font-size: 12px;
-    max-width: 520px;
-    text-align: justify;
-    color: rgb(121, 121, 121);
-}
+        margin-top: 30px;
 
-.b-button {
-    max-width: 100px;
+        &:hover {
+            border: dashed 2px #3b4b62;
+        }
+    }
 }
 
 .border {
-    border: 1px;
-    border-style: solid;
-    border-color: red;
+    border: solid 1px red;
 }
