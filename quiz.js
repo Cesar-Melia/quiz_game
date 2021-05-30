@@ -38,8 +38,6 @@ startButton$$.addEventListener("click", async (event) => {
     main$$.classList.remove("hide-element");
     const url = configureGame();
     questions = await apiRequest(url);
-
-    console.log(questions);
     askQuestion();
 });
 
@@ -210,7 +208,6 @@ const printQuestion = (quest) => {
 
     if (quest.type === "boolean") {
         generateoptions(quest);
-        console.log(quest.correct_answer);
         buttonC$$.classList.add("hide-element");
         buttonD$$.classList.add("hide-element");
         options$$.innerHTML = "<div data-function='optionA' class='b-board__option'>A:  True</div>";
@@ -291,9 +288,6 @@ const generateoptions = (quest) => {
             correctAnswer = "b";
         }
     }
-
-    console.log("quest correct: " + quest.correct_answer);
-    console.log("correct : " + correctAnswer);
 };
 
 const checkCorrect = (quest, eventId) => {
@@ -303,8 +297,6 @@ const checkCorrect = (quest, eventId) => {
             paintCorrect();
             setTimeout(nextQuestion, 1500);
         } else if (quest.correct_answer === "False" && eventId === "b") {
-            console.log(quest.correct_answer);
-            console.log(eventId);
             scoreUpdate();
             paintCorrect();
             setTimeout(nextQuestion, 1500);
@@ -339,7 +331,6 @@ const nextQuestion = () => {
 };
 
 const paintCorrect = () => {
-    console.log(correctAnswer);
     const correct$$ = board$$.querySelector(
         "[data-function='option" + correctAnswer.toUpperCase() + "']"
     );
@@ -347,7 +338,6 @@ const paintCorrect = () => {
 };
 
 const paintIncorrect = (eventId) => {
-    console.log(eventId);
     const incorrect$$ = board$$.querySelector(
         "[data-function='option" + eventId.toUpperCase() + "']"
     );
@@ -357,21 +347,17 @@ const paintIncorrect = (eventId) => {
 
 buttonA$$.addEventListener("click", (event) => {
     answerId = event.target.getAttribute("id");
-    console.log("id = " + answerId);
     checkCorrect(question, answerId);
 });
 buttonB$$.addEventListener("click", (event) => {
     answerId = event.target.getAttribute("id");
-    console.log("id = " + answerId);
     checkCorrect(question, answerId);
 });
 buttonC$$.addEventListener("click", (event) => {
     answerId = event.target.getAttribute("id");
-    console.log("id = " + answerId);
     checkCorrect(question, answerId);
 });
 buttonD$$.addEventListener("click", (event) => {
     answerId = event.target.getAttribute("id");
-    console.log("id = " + answerId);
     checkCorrect(question, answerId);
 });
