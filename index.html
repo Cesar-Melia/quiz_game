@@ -20,7 +20,7 @@
                 <label class="b-form__label" for="questNum">Number of questios:</label>
                 <p class="b-form__underLabel">Number between 1 and 50.</p>
                 <input data-function="questions-number" class="b-form__input" id="questNum" type="text"
-                    placeholder="Number of questions" value="10">
+                    placeholder="Number of questions" value="3">
                 <label class="b-form__label" for="questCat">Questions category:</label>
                 <p class="b-form__underLabel">Any Category, General Knowledge, Books, Film, Music, Musicals & Theatre,
                     Television,
@@ -37,28 +37,26 @@
                 <p class="b-form__underLabel">Any Type, Multiple Choice, True or False.</p>
                 <input data-function="questions-type" class="b-form__input" id="questType" type="text"
                     placeholder="Questions type" value="Any Type">
-                <button data-function="start-game" class="b-form__button">Start game!</button>
+                <button data-function="start-game" class="b-button b-button--start">Start game!</button>
             </fieldset>
         </form>
     </section>
-    <main class="b-board">
+    <main data-function="main" class="b-board hide-element">
         <div class="b-board__counters">
-            <h2 class="b-board__h2">Question: </h2>
-            <h2 class="b-board__h2">Time: </h2>
+            <h2 data-function="numQuest" class="b-board__h2">Question:</h2>
+            <h2 data-function="time" class="b-board__h2 b-board__h2--time">Time: </h2>
         </div>
         <div data-function="board" class="b-board__board">
 
         </div>
-        <div class="b-board__butons">
-
+        <div class="b-board__buttons">
+            <button id="a" class="b-button b-button--answer">A</button>
+            <button id="b" class="b-button b-button--answer">B</button>
+            <button id="c" class="b-button b-button--answer">C</button>
+            <button id="d" class="b-button b-button--answer">D</button>
         </div>
 
     </main>
-    <section>
-        <div data-function="gameboard" class="b-gameboard">
-
-        </div>
-    </section>
 
 
 

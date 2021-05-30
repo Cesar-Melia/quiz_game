@@ -20,13 +20,15 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 180px;
+    height: 220px;
 
     &__title {
+        text-align: center;
         font-family: "ming";
         font-size: 100px;
         color: #222c3a;
         text-decoration: none;
+        margin: 50px 50px;
 
         &:hover {
             font-size: 110px;
@@ -73,26 +75,6 @@ body {
         margin-bottom: 30px;
         color: #3b4b62;
     }
-
-    &__button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #3b4b62;
-        font-size: 20px;
-        font-family: "anti";
-        border: solid 1px #3b4b62;
-        border-radius: 8px;
-        background-color: #d4e0f0;
-        max-width: 150px;
-        height: 40px;
-
-        margin-top: 30px;
-
-        &:hover {
-            border: dashed 2px #3b4b62;
-        }
-    }
 }
 
 .b-board {
@@ -106,16 +88,20 @@ body {
         color: #3b4b62;
         width: 100%;
         max-width: 1024px;
-        margin: 50px 50px 30px 50px;
+        margin: 50px 50px 0px 50px;
         display: flex;
         justify-content: space-around;
     }
 
     &__h2 {
         font-size: 24px;
-        font-family: "anti";
+        //font-family: "anti";
         letter-spacing: 1px;
         text-align: center;
+
+        &--time {
+            width: 120px;
+        }
     }
 
     &__board {
@@ -128,7 +114,71 @@ body {
         width: 100%;
         max-width: 1024px;
         height: 400px;
-        margin: 0 50px 100px 50px;
+        margin: 0 50px 50px 50px;
+        color: #d4e0f0;
+    }
+
+    &__category {
+        font-size: 18px;
+        margin-left: 15px;
+        width: fit-content;
+    }
+
+    &__quest {
+        font-size: 24px;
+        font-weight: normal;
+
+        color: whitesmoke;
+        margin: 30px 0 0 15px;
+        width: 50%;
+    }
+
+    &__options {
+        &--correct {
+            color: rgb(178, 218, 120);
+        }
+
+        &--incorrect {
+            color: rgb(255, 110, 110);
+        }
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+}
+
+.b-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3b4b62;
+    font-size: 20px;
+    font-family: "anti";
+    border: solid 1px #3b4b62;
+    border-radius: 8px;
+    background-color: #d4e0f0;
+    max-width: 150px;
+    height: 40px;
+
+    &--start {
+        margin-top: 30px;
+
+        &:hover {
+            border: dashed 2px #3b4b62;
+        }
+    }
+
+    &--answer {
+        width: 80px;
+        background-color: #3b4b62;
+        color: whitesmoke;
+
+        &:hover {
+            background-color: #678bbe;
+        }
     }
 }
 

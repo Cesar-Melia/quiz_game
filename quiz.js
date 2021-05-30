@@ -9,15 +9,28 @@ let category;
 let difficulty;
 let type;
 let questions = [];
+let totalQuest;
+let time;
+let counter = 0;
+let countInterval;
+let questLoop;
+
 const form$$ = document.body.querySelector("form");
+const main$$ = document.body.querySelector("[data-function='main']");
+const board$$ = document.body.querySelector("[data-function='board']");
+const numQuest$$ = document.body.querySelector("[data-function='numQuest']");
+const time$$ = document.body.querySelector("[data-function='time']");
 const startButton$$ = form$$.querySelector('[data-function="start-game"]');
+
 startButton$$.addEventListener("click", async (event) => {
     event.preventDefault();
     form$$.classList.add("hide-element");
+    main$$.classList.remove("hide-element");
     const url = configureGame();
-    await apiRequest(url);
+    questions = await apiRequest(url);
 
     console.log(questions);
+    askQuestions();
 });
 
 const configureGame = () => {
@@ -42,6 +55,7 @@ const configureGame = () => {
 
 const numCheck = () => {
     if (Number(numQuest) > 0 && Number(numQuest) <= 50) {
+        totalQuest = numQuest;
         return `amount=${numQuest}`;
     } else {
         alert("Please, insert a correct number of questions.");
@@ -140,14 +154,65 @@ const apiRequest = async (url) => {
     try {
         const res = await fetch(url);
         const resData = await res.json();
-        questions = resData.results;
+        return resData.results;
     } catch (err) {
         console.error("Error: Conexion to API has failed", err);
         alert("Error: Conexion to API has failed");
     }
 };
 
-const printQuestions = () => {
-    for (quest of questions) {
+const askQuestions = () => {
+    intervalManage();
+    questLoop = setInterval(() => {
+        intervalManage();
+    }, 11500);
+};
+
+const intervalManage = () => {
+    if (totalQuest > counter) {
+        if (countInterval !== undefined) {
+            clearInterval(countInterval);
+        }
+        time = 10;
+        countInterval = setInterval(timer, 1000);
+        numQuest$$.textContent = `Question: ${counter + 1} / ${totalQuest}`;
+        const quest = questions[counter];
+        printQuestion(quest);
+        console.log(quest);
+        counter++;
+    } else {
+        clearInterval(countInterval);
+        clearInterval(questLoop);
+        finishGame();
     }
+};
+
+const printQuestion = (quest) => {
+    if (quest.type === "boolean") {
+    }
+
+    board$$.textContent = "";
+    const div$$ = document.createElement("div");
+    div$$.classList.add("b-board__card", "border"); /////////////////////////////////////////// Quitar border
+
+    const category$$ = document.createElement("h3");
+    category$$.classList.add("b-board__category");
+    category$$.textContent = quest.category;
+
+    const quest$$ = document.createElement("h3");
+    quest$$.classList.add("b-board__quest");
+    quest$$.innerHTML = quest.question;
+
+    div$$.appendChild(category$$);
+    div$$.appendChild(quest$$);
+    board$$.appendChild(div$$);
+};
+
+const timer = () => {
+    time$$.textContent = "Time: " + time;
+    time--;
+};
+
+const finishGame = () => {
+    alert("Game finished");
 };
