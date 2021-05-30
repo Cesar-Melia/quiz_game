@@ -11,10 +11,10 @@ let type;
 let questions = [];
 
 const startButton$$ = document.body.querySelector('[data-function="start-game"]');
-startButton$$.addEventListener("click", (event) => {
+startButton$$.addEventListener("click", async (event) => {
     event.preventDefault();
     const url = configureGame();
-    apiRequest(url);
+    await apiRequest(url);
 
     console.log(questions);
 });
@@ -138,7 +138,8 @@ const typeCheck = () => {
 const apiRequest = async (url) => {
     try {
         const res = await fetch(url);
-        const resData = res.json();
+        const resData = await res.json();
+        questions = resData.results;
     } catch (err) {
         console.error("Error: Conexion to API has failed", err);
         alert("Error: Conexion to API has failed");
